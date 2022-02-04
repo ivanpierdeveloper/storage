@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!-- <html lang="en"> -->
+<html lang="it">
+
+<head>
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'none' ; script-src resource:; "> -->
+    <meta charset="utf-8">
+    <meta http-equiv="content-language" content="IT">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Dati utente">
+    <meta name="author" content="https://ivanpierdeveloper.it">
+    <meta name="keywords" content="app, create-file-csv">
+    <link rel="shortcut icon" href="img/all/favicon.png" type="image/x-icon" sizes="16x16">
+    <link rel="stylesheet" type="text/css" href="docs/css/root.css">
+    <link rel="stylesheet" type="text/css" href="docs/css/my-alert.css">
+    <link rel="stylesheet" href="docs/css/style.css">
+    <link rel="stylesheet" href="docs/css/media-query.css">
+    <link rel="stylesheet" href="docs/css/tooltip.css" type="text/css">
+    <title>Home | Storage</title>
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+            width: 100%;
+            word-wrap: break-word;
+            height: auto;
+            color: var(--yellow);
+        }
+        
+        table caption {
+            color: var(--white);
+            text-align: center;
+        }
+        
+        table th {
+            border: 1px solid var(--danger);
+        }
+        
+        table td {
+            border: 1px solid var(--orange);
+            text-align: center;
+            font-size: 8pt;
+        }
+        
+        .tooltip span {
+            font-size: 8pt;
+            padding: 18px;
+        }
+        .name {
+            padding: 18px;
+            border: 1px solid var(--white);
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-top: 5px;
+            position: relative;
+        }
+        
+        .name span {
+            width: 40%;
+            position: absolute;
+            left: 30%;
+            top: 25%;
+        }
+
+        .grid {
+            padding: 18px;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 18px;
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+        }
+        img {
+            border-radius: 15px;
+            /*box-shadow: 0 3px 6px 3px var(--silver);*/
+        }
+        .compilate-form {
+            border: 1px solid gray;
+            border-radius: 8px;
+            margin-top: 5px;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 8px;
+            width: 50vw;
+            padding: 5px;
+        }
+        select {
+            width: 100%;
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="full-screen"></div>
+    <!-- ./full-screen -->
+    <div class="my-alert"></div>
+    <!-- ./my-alert -->
+    <div class="loader"></div>
+    <!-- loader-->
+    <div class="loader-text"></div>
+    <!-- loader-text -->
+    <div class="container">
+        <h1 class="root-text-indianred root-text-align-center root-text-color-blue">LOCAL & SESSION STORAGE</h1>
+        <hr />
+        <div class='tooltip'>
+            <span class="tooltiptext">aggiorna</span>
+            <img src="img/icon/btn/btn-repeat.png" class="action-storage" alt="not image" width="45" height="35" />
+        </div>
+        <center><div class="content">
+            <div class="compilate-form root-text-align-center">
+                <input type="email" class="mail" placeholder="email" autofocus>
+                <select class="slc add-or-change-color root-cursor-pointer" onchange="addOrChangeColor(this.value);">
+                    <optgroup label="seleziona il colore desiderato">
+                        <option value="null" selected>Seleziona colore</option>
+                        <option value="var(--secondary)">ripristina</option>
+                        <option value="var(--darkblue)">blu scuro</option>
+                        <option value="var(--darkred)">rosso scuro</option>
+                        <option value="var(--darkgreen)">verde scuro</option>
+                        <option value="var(--darkgoldenrod)">giallo scuro</option>
+                    </optgroup>
+                </select>
+                <div class="tooltip">
+                    <span class="tooltiptext">aggiungi utente</span>
+                    <button class="btn btn-s add-user" onclick='setStorate();'>add user</button>
+                </div>
+                
+                <div class="tooltip">
+                    <span class='tooltiptext'>elimina utente</span>
+                    <button class="btn btn-d remove-user" onclick='removeItem();'>delete user</button>
+                </div>
+                <div class="tooltip">
+                    <span class="tooltiptext">visualizza impostazioni</span>
+                    <button class="btn btn-p view-setting" onclick='readStorage();'>view</button>
+                </div>
+                <div class="tooltip">
+                    <span class="tooltiptext">reset impostazioni</span>
+                    <button class="btn btn-reset clear-user" onclick='resetAll();'>clear</button>
+                </div>
+            </div><!-- compilate form -->
+            </div><!-- content --></center>
+            <div class="msg root-text-color-indianred"></div>
+            <!--<div class="tble-excel root-display-none"></div>-->
+            <!--
+                <input type="text" class="my-alert-input input-title" placeholder="title my alert">
+                <div class="root-clear-dom"></div>
+                <button class="btn btn-s show-my-alert">my alert</button>
+                <button class="btn btn-i loader-my-alert">loader</button>
+                <button class="btn btn-p loader-my-alert-text">loader text</button>
+                <button class="btn btn-w my-alert-w">warning</button>
+                <button class="btn btn-d my-alert-d">danger</button>
+                <div class="tooltip">
+                    <span class="tooltiptext">alert personalizza</span>
+                    <button class="btn btn-c my-alert-d">customized</button>
+                </div>
+            -->
+        </div>
+        <!-- ./content -->
+    </div>
+    <!-- ./container -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <!-- ./lib google ajax -->
+    <script lang="javascript" src="docs/js/my-alert.js" defer></script>
+    <!-- my-alert js -->
+    <!-- (defer) non accesso dall'esterno -->
+    <script lang="javascript" src="docs/js/script.js" defer></script>
+    <!-- script js -->
+    <script lang="javascript">
+        'use strict'
+            const cl = console;
+            const LS = localStorage;
+            const msg = document.querySelector('.msg');
+            const corpo = document.querySelector('body');
+            const mail = document.querySelector('.mail');
+            const add_user = document.querySelector('.add-user');
+            const btn_add_color = document.querySelector('add-color');
+            const btn_add_or_change_color = document.querySelector('.add-or-change-color');
+            // ## IMPORTANTE: sessionStorage
+            // Quando cancelli la cronologia del browser cancella tutto
+            // sessionStorage
+            // Oppure aprire la console del browser e cancellare la session nella
+            // scheda ARCHIVIAZIONE `sessioni`
+            // altrimenti basta chiudere la pagina
+
+            // ## IMPORTANTE: localStorage
+            // ??
+
+            // ## RELOAD PAGE
+            document.querySelector('.action-storage')
+            .addEventListener('click', function(event){
+                location.reload();
+            }); // ## RELOAD PAGE
+            // ## RELOAD PAGE
+            function reloadPage() {
+                location.reload();
+            }
+            // ## RELOAD PAGE
+            // ## SETSTORAGE
+            function setStorate() {
+                try {
+                    //throw new Error("Nessun file caricato");
+                    if(mail.value) {
+                        localStorage.setItem('mail', mail.value);
+                        msg.innerHTML = "utente salvato con successo."
+                        setTimeout(reloadPage, 2000);
+                    } else {
+                        msg.innerHTML = "non hai compilato il campo email.";
+                    }
+                } catch(Exception) {
+                    cl.table(
+                        {
+                            message : Exception.message,
+                            name    : Exception.name
+                        }
+                    )
+                }
+            }// ## SETSTOREGE
+            
+            // ## GETSTORAGE
+            function getStorage() {
+                try {
+                    // throw new Error("Nuovo messaggio");
+                } catch(Exception) {
+                    cl.table(
+                        {
+                            message : Exception.message,
+                            name    : Exception.name
+                        }
+                    )
+                }
+            }
+            // ## GETSTORAGE
+            
+            // ## REMOVE ITEM
+            function removeItem() {
+                try {
+                    var idItem =  confirm("Sicuro di voler eliminare l`utente ?");
+                    if(idItem) {
+                        if(localStorage.getItem('mail')) {
+                            localStorage.removeItem('mail');
+                            msg.innerHTML = `eliminato con successo.`
+                            setTimeout(reloadPage, 2000);
+                        } else {
+                            msg.innerHTML = "spiacente utente non trovato.";
+                        }
+                    }
+                } catch(Exception) {
+                    cl.table(
+                        {
+                            message : Exception.message,
+                            name    : Exception.name
+                        }
+                    )
+                }
+            }
+            // ## REMOVE ITEM
+
+            // ## PULISCI STORAGE
+            function resetAll() {
+                try {
+                    var question = confirm("Cancello tutte le impostazioni ?");
+                    if(question) {
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        msg.innerHTML = "tutte le impostazione sono state cancellate.";
+                        setTimeout(reloadPage, 2000);
+                    }
+                } catch(Exception) {
+                    cl.table(
+                        {
+                            message : Exception.message,
+                            name    : Exception.name
+                        }
+                    )
+                }
+            }// ## PULISCI STORAGE
+
+            // ## READ STORAGE
+            function readStorage() {
+                /*
+                let obj = new Object;
+                obj = {
+                    firstname : 'pluto',
+                    type : 'cane'
+                }
+                cl.table(obj);
+                */
+                // ## funziona tutto sessionStorage
+                // sessionStorage.setItem('id', 100);
+                // sessionStorage.getItem('id', 100);
+                
+                // ## funziona tutto localStorage
+                // localStorage.setItem('obj', JSON.stringify(obj));
+                cl.table(
+                        {
+                            sessionStorage : sessionStorage,
+                            localStorage : localStorage
+                        }
+                    )
+                // let parse = JSON.parse(localStorage.getItem('obj'));
+                /*
+                if(parse != null) {
+                    msg.innerHTML = "";
+                    msg.innerHTML = `firstname: ${parse.firstname} type: ${parse.type}`;
+                }
+                */
+                if(localStorage.getItem('mail')) {
+                    msg.innerHTML = localStorage.getItem('mail');
+                } else {
+                    msg.innerHTML = "nessun utente presente.";
+                }
+            }// ## READ STORAGE
+            // ## AGGIUNGI O CAMBIA COLORE
+            function addOrChangeColor(colore) {
+                if(colore != "null"){
+                    LS.setItem('colore', colore);
+                    msg.innerHTML = "colore impostato.";
+                    const getColore = LS.getItem('colore');
+                    if(getColore) {
+                        corpo.style.setProperty('background-color', colore);
+                    }
+                }
+            }
+            // ## AGGIUNGI O CAMBIA COLORE
+            // ## VERIFICO SE ESISTE UN UTENTE
+            function verifyUser() {
+                let getItem = localStorage.getItem('mail');
+                if(getItem) {
+                    mail.style.setProperty('display', 'none');
+                    add_user.style.setProperty('display', 'none');
+                    btn_add_or_change_color.style.setProperty('display', 'block');
+                    msg.innerHTML = `utente -> <b>${getItem}</b>.`
+                    const getColore = LS.getItem('colore');
+                    if(getColore) {
+                        corpo.style.setProperty('background-color', getColore);
+                    }
+                } else {
+                    mail.style.setProperty('display', 'block');
+                    add_user.style.setProperty('display', 'block');
+                    btn_add_or_change_color.style.setProperty('display', 'none');
+                    msg.innerHTML = "utente non trovato.";
+                }
+            }// ## VERIFICO SE ESISTE UN UTENTE 
+            verifyUser();
+    </script>
+</body>
+
+</html>
