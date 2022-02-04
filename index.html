@@ -318,7 +318,6 @@
             function addOrChangeColor(colore) {
                 if(colore != "null"){
                     LS.setItem('colore', colore);
-                    msg.innerHTML = "colore impostato.";
                     const getColore = LS.getItem('colore');
                     if(getColore) {
                         corpo.style.setProperty('background-color', colore);
